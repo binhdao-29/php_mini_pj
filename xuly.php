@@ -65,7 +65,7 @@
             email,
             fullname,
             birthday,
-            sex
+            gender
         )
         VALUE (
             '{$username}',
@@ -73,7 +73,7 @@
             '{$email}',
             '{$fullname}',
             '{$birthday}',
-            '{$sex}'
+            '{$gender}'
         )
     ");
                           
