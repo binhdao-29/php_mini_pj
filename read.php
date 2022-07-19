@@ -4,7 +4,7 @@ if(isset($_GET["id"]) && !empty(trim($_GET["id"]))){
     
     $sql = "SELECT * FROM member WHERE id = ?";
     
-    if($stmt = mysqli_prepare($link, $sql)){
+    if($stmt = mysqli_prepare($conn, $sql)){
         mysqli_stmt_bind_param($stmt, "i", $param_id);
         
         $param_id = trim($_GET["id"]);
@@ -31,7 +31,7 @@ if(isset($_GET["id"]) && !empty(trim($_GET["id"]))){
      
     mysqli_stmt_close($stmt);
     
-    mysqli_close($link);
+    mysqli_close($conn);
 } else{
     header("location: error.php");
     exit();
@@ -42,7 +42,7 @@ if(isset($_GET["id"]) && !empty(trim($_GET["id"]))){
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>View Record</title>
+    <title>Chi tiết nhân viên</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         .wrapper{
@@ -56,9 +56,9 @@ if(isset($_GET["id"]) && !empty(trim($_GET["id"]))){
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
-                    <h1 class="mt-5 mb-3">View Record</h1>
+                    <h1 class="mt-5 mb-3">Chi tiết nhân viên</h1>
                     <div class="form-group">
-                        <label>Fullname</label>
+                        <label>Họ và tên</label>
                         <p><b><?php echo $row["fullname"]; ?></b></p>
                     </div>
                     <div class="form-group">
@@ -66,14 +66,14 @@ if(isset($_GET["id"]) && !empty(trim($_GET["id"]))){
                         <p><b><?php echo $row["email"]; ?></b></p>
                     </div>
                     <div class="form-group">
-                        <label>Date of Birth</label>
+                        <label>Ngày sinh</label>
                         <p><b><?php echo $row["birthday"]; ?></b></p>
                     </div>
                     <div class="form-group">
-                        <label>Gender</label>
+                        <label>Giới tính</label>
                         <p><b><?php echo $row["gender"]; ?></b></p>
                     </div>
-                    <p><a href="trangchu.php" class="btn btn-primary">Back</a></p>
+                    <p><a href="trangchu.php" class="btn btn-primary">Quay lại</a></p>
                 </div>
             </div>        
         </div>

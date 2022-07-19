@@ -18,7 +18,7 @@
                 </tr>
                 <tr>
                     <td>
-                        Mật khẩu :
+                        Mật khẩu:
                     </td>
                     <td>
                         <input type="password" name="txtPassword" size="50" />
@@ -53,7 +53,7 @@
                         Giới tính :
                     </td>
                     <td>
-                        <select name="txtSex">
+                        <select name="txtGender">
                             <option value=""></option>
                             <option value="Nam">Nam</option>
                             <option value="Nu">Nữ</option>

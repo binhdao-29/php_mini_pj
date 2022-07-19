@@ -17,10 +17,10 @@
     $email      = addslashes($_POST['txtEmail']);
     $fullname   = addslashes($_POST['txtFullname']);
     $birthday   = addslashes($_POST['txtBirthday']);
-    $sex        = addslashes($_POST['txtSex']);
+    $gender        = addslashes($_POST['txtGender']);
           
     //Kiểm tra người dùng đã nhập liệu đầy đủ chưa
-    if (!$username || !$password || !$email || !$fullname || !$birthday || !$sex)
+    if (!$username || !$password || !$email || !$fullname || !$birthday || !$gender)
     {
         echo "Vui lòng nhập đầy đủ thông tin. <a href='javascript: history.go(-1)'>Trở lại</a>";
         exit;
@@ -30,7 +30,7 @@
         $password = md5($password);
           
     //Kiểm tra tên đăng nhập này đã có người dùng chưa 
-    $sql =  "SELECT username FROM member WHERE username='$username'" ;
+    $sql =  "SELECT member.username FROM member WHERE member.username='$username'" ;
     $result = mysqli_query($conn , $sql) ;  
     $count1 = mysqli_num_rows($result) ;
     if ($count1 > 0){
@@ -79,7 +79,7 @@
                           
     //Thông báo quá trình lưu
     if ($addmember)
-        echo "Quá trình đăng ký thành công. <a href='/dangnhap.php'>Đăng nhập</a>";
+        echo "Quá trình đăng ký thành công. <a href='dangnhap.php'>Đăng nhập</a>";
     else
         echo "Có lỗi xảy ra trong quá trình đăng ký. <a href='dangky.php'>Thử lại</a>";
 ?>

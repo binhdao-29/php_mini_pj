@@ -1,6 +1,6 @@
 <?php
     $servername = "localhost";
-    $database = "demo";
+    $database = "sun_demo_php";
     $username = "root";
     $password = "123456";
 

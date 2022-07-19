@@ -39,7 +39,7 @@ if(isset($_POST["id"]) && !empty($_POST["id"])){
     if(empty($fullname_err) && empty($email_err) && empty($birthday_err) && empty($gender_err)){
         $sql = "UPDATE member SET fullname=?, email=?, birthday=?, gender=? WHERE id=?";
          
-        if($stmt = mysqli_prepare($link, $sql)){
+        if($stmt = mysqli_prepare($conn, $sql)){
             mysqli_stmt_bind_param($stmt, "ssssi", $param_name, $param_email, $param_birthday ,$param_gender, $param_id);
             
             $param_name = $fullname;
@@ -59,13 +59,13 @@ if(isset($_POST["id"]) && !empty($_POST["id"])){
         mysqli_stmt_close($stmt);
     }
     
-    mysqli_close($link);
+    mysqli_close($conn);
 } else{
     if(isset($_GET["id"]) && !empty(trim($_GET["id"]))){
         $id =  trim($_GET["id"]);
         
         $sql = "SELECT * FROM member WHERE id = ?";
-        if($stmt = mysqli_prepare($link, $sql)){
+        if($stmt = mysqli_prepare($conn, $sql)){
             mysqli_stmt_bind_param($stmt, "i", $param_id);
             
             $param_id = $id;
@@ -92,7 +92,7 @@ if(isset($_POST["id"]) && !empty($_POST["id"])){
         
         mysqli_stmt_close($stmt);
         
-        mysqli_close($link);
+        mysqli_close($conn);
     }  else{
         header("location: error.php");
         exit();
@@ -104,7 +104,7 @@ if(isset($_POST["id"]) && !empty($_POST["id"])){
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Update Record</title>
+    <title>Cập nhật thông tin</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         .wrapper{
@@ -118,11 +118,11 @@ if(isset($_POST["id"]) && !empty($_POST["id"])){
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
-                    <h2 class="mt-5">Update</h2>
-                    <p>Nhập giá trị cần update</p>
+                    <h2 class="mt-5">Cập nhật thông tin nhân viên</h2>
+                    <p>Nhập các thông tin cần cập nhật</p>
                     <form action="<?php echo htmlspecialchars(basename($_SERVER['REQUEST_URI'])); ?>" method="post">
                         <div class="form-group">
-                            <label>Fullname</label>
+                            <label>Họ và tên</label>
                             <input type="text" name="fullname" class="form-control <?php echo (!empty($fullname_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $fullname; ?>">
                             <span class="invalid-feedback"><?php echo $fullname_err;?></span>
                         </div>
@@ -132,18 +132,18 @@ if(isset($_POST["id"]) && !empty($_POST["id"])){
                             <span class="invalid-feedback"><?php echo $email_err;?></span>
                         </div>
                         <div class="form-group">
-                            <label>Date of Birth</label>
+                            <label>Ngày sinh</label>
                             <textarea name="birthday" class="form-control <?php echo (!empty($birthday_err)) ? 'is-invalid' : ''; ?>"><?php echo $birthday; ?></textarea>
                             <span class="invalid-feedback"><?php echo $birthday_err;?></span>
                         </div>
                         <div class="form-group">
-                            <label>Gender</label>
+                            <label>Giới tính</label>
                             <input type="text" name="gender" class="form-control <?php echo (!empty($gender_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $gender; ?>">
                             <span class="invalid-feedback"><?php echo $gender_err;?></span>
                         </div>
                         <input type="hidden" name="id" value="<?php echo $id; ?>"/>
                         <input type="submit" class="btn btn-primary" value="Submit">
-                        <a href="index.php" class="btn btn-secondary ml-2">Cancel</a>
+                        <a href="trangchu.php" class="btn btn-secondary ml-2">Huỷ</a>
                     </form>
                 </div>
             </div>        

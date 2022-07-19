@@ -1,8 +1,8 @@
 <?php
-require_once "config.php";
+require_once "ketnoi.php";
  
 $fullname = $email = $birthday = $gender = "";
-$fullname_err = $address_err = $birthday_err = $gender_err = "";
+$fullname_err = $email_err = $birthday_err = $gender_err = "";
  
 if($_SERVER["REQUEST_METHOD"] == "POST"){
     $input_fullname = trim($_POST["fullname"]);
@@ -14,20 +14,18 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $fullname = $input_fullname;
     }
     
-    $input_address = trim($_POST["email"]);
-    if(empty($input_address)){
-        $address_err = "Vui lòng nhập email";     
+    $input_email = trim($_POST["email"]);
+    if(empty($input_email)){
+        $email_err = "Vui lòng nhập email";     
     } else{
-        $email = $input_address;
+        $email = $input_email;
     }
     
-    $input_salary = trim($_POST["birthday"]);
-    if(empty($input_salary)){
-        $salary_err = "Vui lòng nhập ngày sinh";     
-    } elseif(!ctype_digit($input_salary)){
-        $salary_err = "Nhập ngày sinh đúng định dạng dd/mm/yyyy";
+    $input_birthday = trim($_POST["birthday"]);
+    if(empty($input_birthday)){
+        $birthday_err = "Vui lòng nhập ngày sinh";     
     } else{
-        $birthday = $input_salary;
+        $birthday = $input_birthday;
     }
 
     $input_gender = trim($_POST["gender"]);
@@ -37,10 +35,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $gender = $input_gender;
     }
     
-    if(empty($fullname_err) && empty($address_err) && empty($salary_err) empty($gender_err)){
+    if(empty($fullname_err) && empty($email_err) && empty($birthday_err) && empty($gender_err)){
         $sql = "INSERT INTO member (fullname, email, birthday, gender) VALUES (?, ?, ?, ?)";
          
-        if($stmt = mysqli_prepare($link, $sql)){
+        if($stmt = mysqli_prepare($conn, $sql)){
             mysqli_stmt_bind_param($stmt, "ssss", $param_fullname, $param_email, $param_birthday, $param_gender);
             
             $param_fullname = $fullname;
@@ -59,7 +57,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         mysqli_stmt_close($stmt);
     }
     
-    mysqli_close($link);
+    mysqli_close($conn);
 }
 ?>
  
@@ -67,7 +65,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Create Record</title>
+    <title>Tạo nhân viên</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         .wrapper{
@@ -81,11 +79,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
-                    <h2 class="mt-5">Create Record</h2>
+                    <h2 class="mt-5">Tạo nhân viên</h2>
                     <p>Vui lòng nhập đầy đủ thông tin thành viên</p>
                     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                         <div class="form-group">
-                            <label>Fullname</label>
+                            <label>Họ và tên</label>
                             <input type="text" name="fullname" class="form-control <?php echo (!empty($fullname_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $fullname; ?>">
                             <span class="invalid-feedback"><?php echo $fullname_err;?></span>
                         </div>
@@ -93,14 +91,14 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             <label>Email</label>
                             <textarea name="email" class="form-control <?php echo (!empty($email_err)) ? 'is-invalid' : ''; ?>"><?php echo $email; ?></textarea>
                             <span class="invalid-feedback"><?php echo $email_err;?></span>
-                        </div>\
+                        </div>
                         <div class="form-group">
-                            <label>Date of Birth</label>
+                            <label>Ngày sinh</label>
                             <textarea name="birthday" class="form-control <?php echo (!empty($birthday_err)) ? 'is-invalid' : ''; ?>"><?php echo $birthday; ?></textarea>
                             <span class="invalid-feedback"><?php echo $birthday_err;?></span>
                         </div>
                         <div class="form-group">
-                            <label>Gender</label>
+                            <label>Giới tính</label>
                             <input type="text" name="gender" class="form-control <?php echo (!empty($gender_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $gender; ?>">
                             <span class="invalid-feedback"><?php echo $gender_err;?></span>
                         </div>

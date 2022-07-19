@@ -42,7 +42,7 @@ if (isset($_POST['dangnhap']))
      
     //Lưu tên đăng nhập
     $_SESSION['username'] = $username;
-    echo "Xin chào " . $username . ". Bạn đã đăng nhập thành công. <a href='/trangchu.php'>Về trang chủ</a>";
+    echo "Xin chào " . $username . ". Bạn đã đăng nhập thành công. <a href='./trangchu.php'>Về trang chủ</a>";
     die();
 }
 ?>

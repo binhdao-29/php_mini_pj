@@ -25,68 +25,66 @@
     </script>
   </head>
   <body>
-    <div class="wrapper">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="mt-5 mb-3 clearfix">
-                        <h2 class="pull-left">nhanvien Details</h2>
-                        <a href="create.php" class="btn btn-success pull-right"><i class="fa fa-plus"></i> Add New Employee</a>
-                    </div>
-                    <?php
-                    if (isset($_SESSION['username']) && $_SESSION['username']){
-                      echo 'Bạn đã đăng nhập với tên là '.$_SESSION['username']."<br/>";
-                      echo 'Click vào đây để <a href="logout.php">Logout</a>';
-                    }
-                    else{
-                      echo 'Bạn chưa đăng nhập';
-                    }
-
-                    require_once "ketnoi.php";
-                    
-                    $sql = "SELECT * FROM member";
-                    if($result = mysqli_query($link, $sql)){
-                        if(mysqli_num_rows($result) > 0){
-                            echo '<table class="table table-bordered table-striped">';
-                                echo "<thead>";
-                                    echo "<tr>";
-                                        echo "<th>ID</th>";
-                                        echo "<th>Fullname</th>";
-                                        echo "<th>Email</th>";
-                                        echo "<th>Date of Birth</th>";
-                                        echo "<th>Gender</th>";
-                                    echo "</tr>";
-                                echo "</thead>";
-                                echo "<tbody>";
-                                while($row = mysqli_fetch_array($result)){
-                                  echo "<tr>";
-                                    echo "<td>" . $row['id'] . "</td>";
-                                    echo "<td>" . $row['fullname'] . "</td>";
-                                    echo "<td>" . $row['email'] . "</td>";
-                                    echo "<td>" . $row['birthday'] . "</td>";
-                                    echo "<td>" . $row['gender'] . "</td>";
-                                    echo "<td>";
-                                      echo '<a href="read.php?id='. $row['id'] .'" class="mr-3" title="View Record" data-toggle="tooltip"><span class="fa fa-eye"></span></a>';
-                                      echo '<a href="update.php?id='. $row['id'] .'" class="mr-3" title="Update Record" data-toggle="tooltip"><span class="fa fa-pencil"></span></a>';
-                                      echo '<a href="delete.php?id='. $row['id'] .'" title="Delete Record" data-toggle="tooltip"><span class="fa fa-trash"></span></a>';
-                                    echo "</td>";
-                                  echo "</tr>";
-                                }
-                                echo "</tbody>";                            
-                            echo "</table>";
-                            mysqli_free_result($result);
-                        } else{
-                            echo '<div class="alert alert-danger">Xảy ra lỗi</div>';
-                        }
-                    } else{
-                        echo "Vui lòng thử lại";
-                    }
- 
-                    mysqli_close($link);
-                    ?>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="mt-5 mb-3 clearfix">
+                    <h2 class="pull-left">Quản lý Nhân viên</h2>
+                    <a href="create.php" class="btn btn-success pull-right"><i class="fa fa-plus"></i> Thêm mới nhân viên</a>
                 </div>
-            </div>        
-        </div>
+                <?php
+                if (isset($_SESSION['username']) && $_SESSION['username']){
+                  echo 'Bạn đã đăng nhập với tên là '.$_SESSION['username']."<br/>";
+                  echo 'Click vào đây để <a href="logout.php">Logout</a>';
+                }
+                else{
+                  echo 'Bạn chưa đăng nhập';
+                }
+
+                require_once "ketnoi.php";
+                
+                $sql = "SELECT * FROM member";
+                if($result = mysqli_query($conn, $sql)){
+                    if(mysqli_num_rows($result) > 0){
+                        echo '<table class="table table-bordered table-striped">';
+                            echo "<thead>";
+                                echo "<tr>";
+                                    echo "<th>Mã NV</th>";
+                                    echo "<th>Họ và tên</th>";
+                                    echo "<th>Email</th>";
+                                    echo "<th>Ngày sinh</th>";
+                                    echo "<th>Giới tính</th>";
+                                echo "</tr>";
+                            echo "</thead>";
+                            echo "<tbody>";
+                            while($row = mysqli_fetch_array($result)){
+                              echo "<tr>";
+                                echo "<td>" . $row['id'] . "</td>";
+                                echo "<td>" . $row['fullname'] . "</td>";
+                                echo "<td>" . $row['email'] . "</td>";
+                                echo "<td>" . $row['birthday'] . "</td>";
+                                echo "<td>" . $row['gender'] . "</td>";
+                                echo "<td>";
+                                  echo '<a href="read.php?id='. $row['id'] .'" class="mr-3" title="Xem chi tiết" data-toggle="tooltip"><span class="fa fa-eye"></span></a>';
+                                  echo '<a href="update.php?id='. $row['id'] .'" class="mr-3" title="Cập nhật thông tin" data-toggle="tooltip"><span class="fa fa-pencil"></span></a>';
+                                  echo '<a href="delete.php?id='. $row['id'] .'" title="Xoá nhân viên" data-toggle="tooltip"><span class="fa fa-trash"></span></a>';
+                                echo "</td>";
+                              echo "</tr>";
+                            }
+                            echo "</tbody>";                            
+                        echo "</table>";
+                        mysqli_free_result($result);
+                    } else{
+                        echo '<div class="alert alert-danger">Xảy ra lỗi</div>';
+                    }
+                } else{
+                    echo "Vui lòng thử lại";
+                }
+
+                mysqli_close($conn);
+                ?>
+            </div>
+        </div>        
     </div>
 </body>
   <body>
