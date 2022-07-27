@@ -1,8 +1,9 @@
 <?php
-require_once "ketnoi.php";
+require_once "connection.php";
  
 $fullname = $email = $birthday = $gender = "";
 $fullname_err = $email_err = $birthday_err = $gender_err = "";
+$conn = DB::getConn();
  
 if(isset($_POST["id"]) && !empty($_POST["id"])){
     $id = $_POST["id"];
@@ -37,7 +38,7 @@ if(isset($_POST["id"]) && !empty($_POST["id"])){
         $birthday = $input_birthday;
     }
     if(empty($fullname_err) && empty($email_err) && empty($birthday_err) && empty($gender_err)){
-        $sql = "UPDATE member SET fullname=?, email=?, birthday=?, gender=? WHERE id=?";
+        $sql = "UPDATE members SET fullname=?, email=?, birthday=?, gender=? WHERE id=?";
          
         if($stmt = mysqli_prepare($conn, $sql)){
             mysqli_stmt_bind_param($stmt, "ssssi", $param_name, $param_email, $param_birthday ,$param_gender, $param_id);
@@ -49,7 +50,7 @@ if(isset($_POST["id"]) && !empty($_POST["id"])){
             $param_id = $id;
             
             if(mysqli_stmt_execute($stmt)){
-                header("location: trangchu.php");
+                header("location:index.php?controller=members");
                 exit();
             } else{
                 echo "Xảy ra lỗi. Vui lòng thử lại";
@@ -64,7 +65,7 @@ if(isset($_POST["id"]) && !empty($_POST["id"])){
     if(isset($_GET["id"]) && !empty(trim($_GET["id"]))){
         $id =  trim($_GET["id"]);
         
-        $sql = "SELECT * FROM member WHERE id = ?";
+        $sql = "SELECT * FROM members WHERE id = ?";
         if($stmt = mysqli_prepare($conn, $sql)){
             mysqli_stmt_bind_param($stmt, "i", $param_id);
             
@@ -81,7 +82,7 @@ if(isset($_POST["id"]) && !empty($_POST["id"])){
                     $gender = $row["gender"];
 
                 } else{
-                    header("location: error.php");
+                    header("location: index.php?controller=members&action=error");
                     exit();
                 }
                 
@@ -94,7 +95,7 @@ if(isset($_POST["id"]) && !empty($_POST["id"])){
         
         mysqli_close($conn);
     }  else{
-        header("location: error.php");
+        header("location: index.php?controller=members&action=error");
         exit();
     }
 }
@@ -143,7 +144,7 @@ if(isset($_POST["id"]) && !empty($_POST["id"])){
                         </div>
                         <input type="hidden" name="id" value="<?php echo $id; ?>"/>
                         <input type="submit" class="btn btn-primary" value="Submit">
-                        <a href="trangchu.php" class="btn btn-secondary ml-2">Huỷ</a>
+                        <a href="index.php?controller=members" class="btn btn-secondary ml-2">Huỷ</a>
                     </form>
                 </div>
             </div>        

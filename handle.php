@@ -6,7 +6,8 @@
     }
      
     //Nhúng file kết nối với database
-    include('ketnoi.php');
+    require_once "connection.php";
+    $conn = DB::getConn();
           
     //Khai báo utf-8 để hiển thị được tiếng việt
     header('Content-Type: text/html; charset=UTF-8');
@@ -30,7 +31,7 @@
         $password = md5($password);
           
     //Kiểm tra tên đăng nhập này đã có người dùng chưa 
-    $sql =  "SELECT member.username FROM member WHERE member.username='$username'" ;
+    $sql =  "SELECT members.username FROM members WHERE members.username='$username'" ;
     $result = mysqli_query($conn , $sql) ;  
     $count1 = mysqli_num_rows($result) ;
     if ($count1 > 0){
@@ -45,7 +46,7 @@
     }
           
     //Kiểm tra email đã có người dùng chưa
-    if (mysqli_num_rows(mysqli_query($conn,"SELECT email FROM member WHERE email='$email'")) > 0)
+    if (mysqli_num_rows(mysqli_query($conn,"SELECT email FROM members WHERE email='$email'")) > 0)
     {
         echo "Email này đã có người dùng. Vui lòng chọn Email khác. <a href='javascript: history.go(-1)'>Trở lại</a>";
         exit;
@@ -59,7 +60,7 @@
          
     //Lưu thông tin thành viên vào bảng
     @$addmember = mysqli_query($conn,"
-        INSERT INTO member (
+        INSERT INTO members (
             username,
             password,
             email,

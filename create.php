@@ -1,8 +1,9 @@
 <?php
-require_once "ketnoi.php";
+require_once "connection.php";
  
 $fullname = $email = $birthday = $gender = "";
 $fullname_err = $email_err = $birthday_err = $gender_err = "";
+$conn = DB::getConn();
  
 if($_SERVER["REQUEST_METHOD"] == "POST"){
     $input_fullname = trim($_POST["fullname"]);
@@ -36,7 +37,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     }
     
     if(empty($fullname_err) && empty($email_err) && empty($birthday_err) && empty($gender_err)){
-        $sql = "INSERT INTO member (fullname, email, birthday, gender) VALUES (?, ?, ?, ?)";
+        $sql = "INSERT INTO members (fullname, email, birthday, gender) VALUES (?, ?, ?, ?)";
          
         if($stmt = mysqli_prepare($conn, $sql)){
             mysqli_stmt_bind_param($stmt, "ssss", $param_fullname, $param_email, $param_birthday, $param_gender);
@@ -47,7 +48,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             $param_gender = $gender;
             
             if(mysqli_stmt_execute($stmt)){
-                header("location: trangchu.php");
+                header("location: index.php?controller=members");
                 exit();
             } else{
                 echo "Xảy ra lỗi. Vui lòng thử lại.";
@@ -103,7 +104,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             <span class="invalid-feedback"><?php echo $gender_err;?></span>
                         </div>
                         <input type="submit" class="btn btn-primary" value="Submit">
-                        <a href="trangchu.php" class="btn btn-secondary ml-2">Cancel</a>
+                        <a href="index.php?controller=members" class="btn btn-secondary ml-2">Cancel</a>
                     </form>
                 </div>
             </div>        

@@ -1,12 +1,14 @@
 <?php
+require_once "connection.php";
+$conn = DB::getConn();
 if(isset($_POST["id"]) && !empty($_POST["id"])){
-    require_once "ketnoi.php";
-    $sql = "DELETE FROM member WHERE id = ?";
+    require_once "connection.php";
+    $sql = "DELETE FROM members WHERE id = ?";
     if($stmt = mysqli_prepare($conn, $sql)){
         mysqli_stmt_bind_param($stmt, "i", $param_id);
         $param_id = trim($_POST["id"]);
         if(mysqli_stmt_execute($stmt)){
-            header("location: trangchu.php");
+            header("location: index.php?controller=members");
             exit();
         } else{
             echo "Xảy ra lỗi vui lòng thử lại";
@@ -17,7 +19,7 @@ if(isset($_POST["id"]) && !empty($_POST["id"])){
     mysqli_close($conn);
 } else{
     if(empty(trim($_GET["id"]))){
-        header("location: error.php");
+        header("location: index.php?controller=members&action=error");
         exit();
     }
 }
@@ -48,7 +50,7 @@ if(isset($_POST["id"]) && !empty($_POST["id"])){
                             <p>Bạn có chắc muốn xoá member này?</p>
                             <p>
                                 <input type="submit" value="Yes" class="btn btn-danger">
-                                <a href="trangchu.php" class="btn btn-secondary">No</a>
+                                <a href="index.php?controller=members" class="btn btn-secondary">No</a>
                             </p>
                         </div>
                     </form>

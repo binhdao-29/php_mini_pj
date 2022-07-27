@@ -16,8 +16,8 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
-                    <h2 class="mt-5 mb-3">Invalid Request</h2>
-                    <div class="alert alert-danger">Quay lại <a href="trangchu.php" class="alert-link">trang chủ</a> và thử lại.</div>
+                    <h2 class="mt-5 mb-3">Có lỗi xảy ra</h2>
+                    <div class="alert alert-danger">Vui lòng thử lại</div>
                 </div>
             </div>        
         </div>
