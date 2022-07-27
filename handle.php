@@ -6,7 +6,8 @@
     }
      
     //Nhúng file kết nối với database
-    include('ketnoi.php');
+    require_once "connection.php";
+    $conn = DB::getConn();
           
     //Khai báo utf-8 để hiển thị được tiếng việt
     header('Content-Type: text/html; charset=UTF-8');
@@ -17,10 +18,10 @@
     $email      = addslashes($_POST['txtEmail']);
     $fullname   = addslashes($_POST['txtFullname']);
     $birthday   = addslashes($_POST['txtBirthday']);
-    $sex        = addslashes($_POST['txtSex']);
+    $gender        = addslashes($_POST['txtGender']);
           
     //Kiểm tra người dùng đã nhập liệu đầy đủ chưa
-    if (!$username || !$password || !$email || !$fullname || !$birthday || !$sex)
+    if (!$username || !$password || !$email || !$fullname || !$birthday || !$gender)
     {
         echo "Vui lòng nhập đầy đủ thông tin. <a href='javascript: history.go(-1)'>Trở lại</a>";
         exit;
@@ -30,7 +31,7 @@
         $password = md5($password);
           
     //Kiểm tra tên đăng nhập này đã có người dùng chưa 
-    $sql =  "SELECT username FROM member WHERE username='$username'" ;
+    $sql =  "SELECT members.username FROM members WHERE members.username='$username'" ;
     $result = mysqli_query($conn , $sql) ;  
     $count1 = mysqli_num_rows($result) ;
     if ($count1 > 0){
@@ -45,7 +46,7 @@
     }
           
     //Kiểm tra email đã có người dùng chưa
-    if (mysqli_num_rows(mysqli_query($conn,"SELECT email FROM member WHERE email='$email'")) > 0)
+    if (mysqli_num_rows(mysqli_query($conn,"SELECT email FROM members WHERE email='$email'")) > 0)
     {
         echo "Email này đã có người dùng. Vui lòng chọn Email khác. <a href='javascript: history.go(-1)'>Trở lại</a>";
         exit;
@@ -59,13 +60,13 @@
          
     //Lưu thông tin thành viên vào bảng
     @$addmember = mysqli_query($conn,"
-        INSERT INTO member (
+        INSERT INTO members (
             username,
             password,
             email,
             fullname,
             birthday,
-            sex
+            gender
         )
         VALUE (
             '{$username}',
@@ -73,13 +74,13 @@
             '{$email}',
             '{$fullname}',
             '{$birthday}',
-            '{$sex}'
+            '{$gender}'
         )
     ");
                           
     //Thông báo quá trình lưu
     if ($addmember)
-        echo "Quá trình đăng ký thành công. <a href='/dangnhap.php'>Đăng nhập</a>";
+        echo "Quá trình đăng ký thành công. <a href='dangnhap.php'>Đăng nhập</a>";
     else
         echo "Có lỗi xảy ra trong quá trình đăng ký. <a href='dangky.php'>Thử lại</a>";
 ?>

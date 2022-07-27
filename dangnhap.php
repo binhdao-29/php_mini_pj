@@ -9,8 +9,8 @@ header('Content-Type: text/html; charset=UTF-8');
 if (isset($_POST['dangnhap'])) 
 {
     //Kết nối tới database
-    include('ketnoi.php');
-     
+    include('connection.php');
+    $conn = DB::getConn();
     //Lấy dữ liệu nhập vào
     $username = addslashes($_POST['txtUsername']);
     $password = addslashes($_POST['txtPassword']);
@@ -25,7 +25,7 @@ if (isset($_POST['dangnhap']))
     $password = md5($password);
      
     //Kiểm tra tên đăng nhập có tồn tại không
-    $query = mysqli_query($conn,"SELECT username, password FROM member WHERE username='$username'");
+    $query = mysqli_query($conn,"SELECT username, password FROM members WHERE username='$username'");
     if (mysqli_num_rows($query) == 0) {
         echo "Tên đăng nhập này không tồn tại. Vui lòng kiểm tra lại. <a href='javascript: history.go(-1)'>Trở lại</a>";
         exit;
@@ -42,7 +42,7 @@ if (isset($_POST['dangnhap']))
      
     //Lưu tên đăng nhập
     $_SESSION['username'] = $username;
-    echo "Xin chào " . $username . ". Bạn đã đăng nhập thành công. <a href='/trangchu.php'>Về trang chủ</a>";
+    echo "Xin chào " . $username . ". Bạn đã đăng nhập thành công. <a href='./index.php?controller=members'>Về trang chủ</a>";
     die();
 }
 ?>
