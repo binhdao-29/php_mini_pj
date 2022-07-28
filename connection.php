@@ -7,7 +7,7 @@ class DB
     public static function getInstance() {
       if (!isset(self::$instance)) {
         try {
-          self::$instance = new PDO('mysql:host=localhost;dbname=sun_demo_php', 'root', '123456');
+          self::$instance = new PDO('mysql:host=localhost;dbname=demo', 'root', '123456');
           self::$instance->exec("SET NAMES 'utf8'");
         } catch (PDOException $ex) {
           die($ex->getMessage());
@@ -18,7 +18,7 @@ class DB
 
     public static function getConn() {
       $servername = "localhost";
-      $database = "sun_demo_php";
+      $database = "demo";
       $username = "root";
       $password = "123456";
       $conn = mysqli_connect($servername, $username, $password, $database);
