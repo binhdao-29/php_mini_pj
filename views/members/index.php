@@ -35,13 +35,15 @@
                     <a href="views/pages/create.php" class="btn btn-success pull-right"><i class="fa fa-plus"></i> Thêm mới nhân viên</a>
                 </div>
                 <?php
-                if (isset($_SESSION['username']) && $_SESSION['username']){
-                  echo 'Bạn đã đăng nhập với tên là '.$_SESSION['username']."<br/>";
+                  if (!isset($_COOKIE['login']) || $_COOKIE['login'] != 'true') {
+                    header('Location: login.php');
+                    die();
+                  }
+          
+                  if(isset($_COOKIE['username'])){
+                    echo 'Bạn đã đăng nhập với tên là '.$_COOKIE['username']."<br/>";
+                  }
                   echo 'Click vào đây để <a href="logout.php">Logout</a>';
-                }
-                else{
-                  echo 'Bạn chưa đăng nhập';
-                }
 
                 require_once "connection.php";
                 
@@ -65,7 +67,7 @@
                         echo "<td>" . $member->gender . "</td>";
                         echo "<td>";
                           echo '<a href="index.php?controller=members&action=showMember&id='. $member->id .'" class="mr-3" title="Xem chi tiết" data-toggle="tooltip"><span class="fa fa-eye"></span></a>';
-                          echo '<a href="update.php?id='. $member->id .'" class="mr-3" title="Cập nhật thông tin" data-toggle="tooltip"><span class="fa fa-pencil"></span></a>';
+                          echo '<a href="./views/pages/update.php?id='. $member->id .'" class="mr-3" title="Cập nhật thông tin" data-toggle="tooltip"><span class="fa fa-pencil"></span></a>';
                           echo '<a href="delete.php?id='. $member->id .'" title="Xoá nhân viên" data-toggle="tooltip"><span class="fa fa-trash"></span></a>';
                         echo "</td>";
                       echo "</tr>";

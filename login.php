@@ -3,7 +3,7 @@
     include('connection.php');
     $conn = DB::getConn();
     if(isset($_COOKIE['login']) && $_COOKIE['login'] =='true'){
-        header("location:trangchu.php");
+        header("location:index.php?controller=members");
         die();
     }
     if(isset($_POST['username']) && isset($_POST['password'])){
@@ -16,7 +16,7 @@
         if(!$f_username || !$f_password){
             $error = "Vui lòng nhập đủ tài khoản và mật khẩu";
         }else{
-            $sql = "SELECT username, password FROM member WHERE username='$f_username'" ;
+            $sql = "SELECT username, password FROM members WHERE username='$f_username'" ;
             if(mysqli_num_rows(mysqli_query($conn , $sql)) == 0){
                 $usernameErr = "Tên đăng nhập không tồn tại" ;
             }else{
@@ -32,7 +32,7 @@
                         setcookie('login' , 'true' , time() + 60*60*7);
                         setcookie('username' , $f_username , time() + 60*60*7);
                     }
-                    header("location:trangchu.php");
+                    header("location:index.php?controller=members");
                 }
             }
         }

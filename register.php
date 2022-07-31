@@ -16,7 +16,7 @@
         include('connection.php');
         $conn = DB::getConn();
         if(isset($_COOKIE['login']) && $_COOKIE['login'] =='true'){
-            header("location:trangchu.php");
+            header("location:index.php?controller=members");
             die();
         }
         $usernameErr = $emailErr = $passwordErr = $genderErr = $birthdayErr = $fullnameErr = "";
@@ -30,7 +30,7 @@
                 if (!preg_match("/^[a-zA-Z ]*$/",$username)) {
                     $usernameErr = "Bạn chỉ được nhập chữ cái và khoảng trắng.";
                 }
-                $sql = "SELECT username FROM member WHERE username='$username'" ;
+                $sql = "SELECT username FROM members WHERE username='$username'" ;
                 if(mysqli_num_rows(mysqli_query($conn ,$sql))){
                     $usernameErr = " Tên đăng nhập đã tồn tại" ;
                 }
@@ -51,7 +51,7 @@
                 if(!filter_var($email,FILTER_VALIDATE_EMAIL)){
                     $emailErr = "Email không đúng định dạng" ;
                 }
-                $sql = "SELECT email FROM member WHERE email='$email'" ;
+                $sql = "SELECT email FROM members WHERE email='$email'" ;
                 if(mysqli_num_rows(mysqli_query($conn , $sql))){
                     $emailErr = "Email đã được sử dụng" ;
                 }
@@ -78,7 +78,7 @@
                 $gender = input_data($_POST['gender']);
             }
 
-            $sql = "INSERT INTO member (
+            $sql = "INSERT INTO members (
                 username,
                 password,
                 email,
